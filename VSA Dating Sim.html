@@ -33,20 +33,35 @@ body, tw-story
   margin: 0
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Title" tags="noInventory" position="50,300" size="100,100">&lt;h1&gt;VSA Dating Simulator&lt;/h1&gt;
 
-&lt;h2&gt;An Asian American college dating simulator&lt;/h2&gt;
+&lt;h2&gt;An Asian American college dating simulator that&#39;s totally accurate&lt;/h2&gt;
 
 
 By Chris Griffis
 
-[[Start|Welcome]]</tw-passagedata><tw-passagedata pid="2" name="Footer" tags="footer" position="150,625" size="100,100">(if: (passage:)&#39;s name is &quot;inventory&quot;)[&lt;!--Do nothing--&gt;]
-(else-if: (passage:)&#39;s tags contains &quot;noInventory&quot;)[&lt;!--Do nothing--&gt;]
-(else:)[[Inventory]]</tw-passagedata><tw-passagedata pid="3" name="Inventory" tags="noInventory" position="350,625" size="100,100">&lt;h2&gt;Inventory&lt;/h2&gt;
-(if: $inventory&#39;s length is 0)[&lt;!--If no items display nothing--&gt;]
-(else:)[(for: each _item, ...$inventory)[* _item]]
+[[Start|Welcome]]</tw-passagedata><tw-passagedata pid="2" name="Footer" tags="footer" position="125,675" size="100,100">(if: (passage:)&#39;s name is &quot;CharacterInformation&quot;)[&lt;!--Do nothing--&gt;]
+(else-if: (passage:)&#39;s tags contains &quot;charInfo&quot;)
+[[Character Information|CharacterInformation]]
+(else:)[]
+</tw-passagedata><tw-passagedata pid="3" name="CharacterInformation" tags="" position="250,675" size="100,100">&lt;h3&gt;(print: $player&#39;s name)&lt;/h3&gt;
+College: (print: $player&#39;s collegeName)
 
-(display: &quot;Return&quot;)</tw-passagedata><tw-passagedata pid="4" name="Return" tags="" position="150,500" size="100,100">(link:&quot;return&quot;)[(goto: (history: )&#39;s last)]</tw-passagedata><tw-passagedata pid="5" name="Intro" tags="noInventory" position="800,300" size="100,100">It&#39;s the day of the Cornucocpia. {
+Fitness: (print: $player&#39;s fitness)
+Intelligence: (print: $player&#39;s intelligence)
+Socail: (print: $player&#39;s social)
+
+&lt;h3&gt;Confidence levels&lt;/h3&gt;
+Bro:
+&lt;t&gt;(print: $BroPoints + $player&#39;s fitness)&lt;/t&gt;
+Lola:
+&lt;t&gt;(print: $LolaPoints + $player&#39;s social)&lt;/t&gt;
+Justin:
+&lt;t&gt;(print: $JustinConfidence + $player&#39;s fitness + $player&#39;s social+ $player&#39;s intelligence)&lt;/t&gt;
+Anna:
+&lt;t&gt;(print: $AnnaConfidence + $player&#39;s intelligence)&lt;/t&gt;
+
+(link:&quot;Return&quot;)[(goto: (history: )&#39;s last)]</tw-passagedata><tw-passagedata pid="4" name="Intro" tags="noInventory" position="675,300" size="100,100">It&#39;s the day of the Cornucocpia. {
 (if: $player&#39;s college is &quot;CowellStevenson&quot;)
-	[I can see them setting up from the dining hall. I wonder what kinda clubs I&#39;m going to see...]
+	[I can see them setting up from the dining hall. I wonder what kind of clubs I&#39;m going to see...]
 (else-if: $player&#39;s college is &quot;CrownMerrill&quot;)
 	[I haven&#39;t heard much but I&#39;ve seen a few posters and it&#39;s something to do.]
 (else-if: $player&#39;s college is &quot;NineTen&quot;)
@@ -67,8 +82,9 @@ By Chris Griffis
 (else:)
 	[I should...]
 }
-(link: &quot;&lt;&lt;Take the bus&gt;&gt;&quot;)[(set: $player&#39;s fitness -= 1)(goto: &quot;Cornucopia&quot;)]
-(link: &quot;&lt;&lt;Walk. It&#39;s a nice day&gt;&gt;&quot;)[
+&amp;emsp;//Take the bus.// Why break a sweat? \
+(click: &quot;Take the bus&quot;)[(set: $player&#39;s fitness -= 1)(goto: &quot;Cornucopia&quot;)]
+&amp;emsp;//Walk.// It&#39;s a nice day(click: &quot;Walk&quot;)[
 	(if: $player&#39;s college is &quot;NineTen&quot; or 
 		$player&#39;s college is &quot;KresgePorter&quot; or
 		$player&#39;s college is &quot;RachelCarsonOakes&quot;)
@@ -80,21 +96,9 @@ By Chris Griffis
 	(goto: &quot;Cornucopia&quot;)
 	]
 	
-
-(link: &quot;...&quot;)[
-After months of research you finally have come across a reference to the entrance of the hidden temple.
-(link: &quot;...&quot;)[
-It was just a few days ago that you escaped Don Ricardo&#39;s villa with the
-]]
-
-
-
-
-
-
 &lt;!--Insert more back story --&gt;
 
-(set: $inventory to (a:))</tw-passagedata><tw-passagedata pid="6" name="ChooseCollege" tags="noInventory" position="500,300" size="100,100">What College are you from?
+(set: $inventory to (a:))</tw-passagedata><tw-passagedata pid="5" name="ChooseCollege" tags="noInventory" position="425,300" size="100,100">What College are you from?
 {
 (display: &quot;CollegeList&quot;)}
 
@@ -116,22 +120,15 @@ It was just a few days ago that you escaped Don Ricardo&#39;s villa with the
 &lt;t&gt;College: (print: $player&#39;s collegeName)&lt;/t&gt;
 
 
-[[Back|EnterName]]&amp;emsp;&amp;emsp;[[Continue|Intro]]</tw-passagedata><tw-passagedata pid="7" name="EnterName" tags="noInventory" position="350,300" size="100,100">(display: &quot;StartupVariables&quot;)
+[[Back|EnterName]]&amp;emsp;&amp;emsp;[[Confirm|Intro]]</tw-passagedata><tw-passagedata pid="6" name="EnterName" tags="noInventory" position="300,300" size="100,100">(display: &quot;StartupVariables&quot;)
 
-(set: $player&#39;s name to (prompt: &quot;What is your name? &quot;, $player&#39;s name))[(goto: &quot;ChooseCollege&quot;)]</tw-passagedata><tw-passagedata pid="8" name="Welcome" tags="noInventory" position="200,300" size="100,100">Welcome to the UCSC Vietnamese Student Association Dating Simulator.
+(set: $player&#39;s name to (prompt: &quot;What is your name? &quot;, $player&#39;s name))[(goto: &quot;ChooseCollege&quot;)]</tw-passagedata><tw-passagedata pid="7" name="Welcome" tags="noInventory" position="175,300" size="100,100">&lt;h3&gt;Welcome to the UCSC Vietnamese Student Association Dating Simulator.&lt;/h3&gt;
 
-All characters are fictional and are poor representations of their real likeness.
-
-
-
-Ready to [[begin|EnterName]]?</tw-passagedata><tw-passagedata pid="9" name="InstantTransition" tags="noInventory" position="100,25" size="100,100">
-
-(link: &quot;link-goto0&quot;)[(set: $x to 0)(goto: &quot;InstantTransition&quot;)]
-(link: &quot;link-goto1&quot;)[(set: $x to 1)(goto: &quot;InstantTransition&quot;)]
+Characters are based loosely on real people and are poor representations of their real lovely selves.
 
 
 
-&lt;!--(goto: &quot;InstantTransition&quot;)--&gt;</tw-passagedata><tw-passagedata pid="10" name="CollegeList" tags="" position="500,425" size="100,100">(enchant: ?Link, (transition-arrive: &quot;instant&quot;))
+Ready to [[begin|EnterName]]?</tw-passagedata><tw-passagedata pid="8" name="CollegeList" tags="" position="425,425" size="100,100">(enchant: ?Link, (transition-arrive: &quot;instant&quot;))
 {}
 (link: &quot;Cowell&quot;)[
 	(set: $player&#39;s collegeName to &quot;Cowell&quot;, 
@@ -178,24 +175,24 @@ Ready to [[begin|EnterName]]?</tw-passagedata><tw-passagedata pid="9" name="Inst
 	
 	
 	
-}	</tw-passagedata><tw-passagedata pid="11" name="CowellStevenson" tags="" position="650,50" size="100,100">Closer to the gym better fitness baby... or so you hope.
+}	</tw-passagedata><tw-passagedata pid="9" name="CowellStevenson" tags="" position="550,50" size="100,100">Closer to the gym better fitness baby... or so you hope.
 
 Fitness: +2
 Intelligence: -1
 Social: +0
-{(set: $player&#39;s fitness to 2, $player&#39;s intelligence to -1)}</tw-passagedata><tw-passagedata pid="12" name="CrownMerrill" tags="" position="650,175" size="100,100">It&#39;s pretty quiet here... I guess I&#39;ll study...
+{(set: $player&#39;s fitness to 2, $player&#39;s intelligence to -1)}</tw-passagedata><tw-passagedata pid="10" name="CrownMerrill" tags="" position="550,175" size="100,100">It&#39;s pretty quiet here... I guess I&#39;ll study...
 
 Fitness: +0
 Intelligence: +2
 Social: -1
-{(set: $player&#39;s intelligence to 2, $player&#39;s social to -1)}</tw-passagedata><tw-passagedata pid="13" name="NineTen" tags="" position="650,300" size="100,100">Theres a lot of Asians here... It feels like back home.
+{(set: $player&#39;s intelligence to 2, $player&#39;s social to -1)}</tw-passagedata><tw-passagedata pid="11" name="NineTen" tags="" position="550,300" size="100,100">Theres a lot of Asians here... It feels like back home.
 
 Fitness: +0
 Intelligence: +0
-Social: +0</tw-passagedata><tw-passagedata pid="14" name="StartupVariables" tags="" position="350,425" size="100,100">{
+Social: +0</tw-passagedata><tw-passagedata pid="12" name="StartupVariables" tags="header" position="300,425" size="100,100">{
 (if: $ranStartup is true)[]
 (else:)[
-
+&lt;!--Sets Default variables--&gt;
 (set: $player to (dm:
 	&quot;name&quot;,			&quot;Name&quot;,
 	&quot;collegeName&quot;, 	&quot;None&quot;,
@@ -204,24 +201,340 @@ Social: +0</tw-passagedata><tw-passagedata pid="14" name="StartupVariables" tags
 	&quot;intelligence&quot;,	0,
 	&quot;social&quot;,		0,))
 	
-(set: $ranStartup to true)
+(set: $ranStartup to true,
+	$BroPoints to 0,
+	$LolaPoints to 0,
+	$JustinPoints to 0,
+	$AnnaPoints to 0,
+	$met to &quot;&quot;,
+	$character to (either: &quot;Bro&quot;, &quot;Lola&quot;, &quot;Justin&quot;, &quot;Anna&quot;))
 ]	
-}</tw-passagedata><tw-passagedata pid="15" name="KresgePorter" tags="" position="650,425" size="100,100">I love nature and Porter Meadows is so close... Should I get a hammock?
+}</tw-passagedata><tw-passagedata pid="13" name="KresgePorter" tags="" position="550,425" size="100,100">I love nature and Porter Meadows is so close... Should I get a hammock?
 
 Fitness: +1
 Intelligence: -1
 Social: +1
-{(set: $player&#39;s fitness to 1, $player&#39;s intelligence to -1, $player&#39;s social to 1)}</tw-passagedata><tw-passagedata pid="16" name="RachelCarsonOakes" tags="" position="650,550" size="100,100">It&#39;s pretty far from everything so I&#39;ll guess I&#39;ll just bus. I&#39;ll just have to make friends here {
+{(set: $player&#39;s fitness to 1, $player&#39;s intelligence to -1, $player&#39;s social to 1)}</tw-passagedata><tw-passagedata pid="14" name="RachelCarsonOakes" tags="" position="550,550" size="100,100">It&#39;s pretty far from everything so I&#39;ll guess I&#39;ll just bus. I&#39;ll just have to make friends here {
 (if: $player&#39;s collegeName is &quot;Oakes&quot;)[OAKES!]
 (else:)[]}
 
 Fitness: -1
 Intelligence: +0
 Social: +2
-{(set: $player&#39;s fitness to -1, $player&#39;s social to 2)}</tw-passagedata><tw-passagedata pid="17" name="Character Ideas" tags="" position="275,75" size="100,100">Josh: high fitness level
+{(set: $player&#39;s fitness to -1, $player&#39;s social to 2)}</tw-passagedata><tw-passagedata pid="15" name="Character Ideas" tags="" position="325,50" size="100,100">Josh: high fitness level
 Jannine: high intelligence level
 Julia: High social level
-Justin: Good overall</tw-passagedata><tw-passagedata pid="18" name="Cornucopia" tags="" position="950,300" size="100,100">[[BeachDay]]</tw-passagedata><tw-passagedata pid="19" name="BeachDay" tags="" position="1100,300" size="100,100">[[FoodNight]]</tw-passagedata><tw-passagedata pid="20" name="FoodNight" tags="" position="1250,300" size="100,100">Double-click this passage to edit it.</tw-passagedata></tw-storydata>
+Justin: Good overall</tw-passagedata><tw-passagedata pid="16" name="Cornucopia" tags="" position="800,300" size="100,100">You&#39;re walking down to East Field and the sun lighting up the canopies that line the field looks almost like a market. Crowds of students walk by tables of clubs holding handfuls of paperwork that they&#39;ll forget somewhere or stressballs and lanyards. 
+
+(link: &quot;...&quot;)[ \
+You choose a row of canopies to walk by at random and you look up and see the cloudless sky and think of deoderant you remembered to put on and the new shirt you got. You start day dreaming a little about the parties and dances you&#39;ll be at you realize you&#39;re surrounded...
+
+&amp;emsp;[//Look Left//]&lt;l0|
+&amp;emsp;[//Look Right//]&lt;l0| 
+(click: ?l0)[ 
+	(t8n: &quot;pulse&quot;)[A wild ABG appears!]
+	(live: 1.25s)[(goto: &quot;ABGFight1&quot;)]
+]]</tw-passagedata><tw-passagedata pid="17" name="Day1" tags="charInfo" position="1925,300" size="100,100">It&#39;s the day of the Food Night and according to the flyer you are supposed to meet at the Quarry at 5:00pm.
+
+You&#39;ve got some time before 5:00, what should you do?
+&amp;emsp; \
+[[//Work Out//|WorkOut]] \
+&amp;emsp;&amp;emsp; \
+[[//Study//|Study]] \
+&amp;emsp;&amp;emsp; \
+[[//Hang Out//|HangOut]]</tw-passagedata><tw-passagedata pid="18" name="Quarry3" tags="charInfo" position="2425,300" size="100,100">&quot;Okay (print: $character) will drive you. They should be right over there.&quot;
+
+&amp;emsp;[[//Meet with (print: $character)//|FoodNight]]</tw-passagedata><tw-passagedata pid="19" name="Social" tags="" position="1125,700" size="100,100">[[SecondMeeting]]</tw-passagedata><tw-passagedata pid="20" name="SecondMeeting" tags="" position="1250,700" size="100,100"></tw-passagedata><tw-passagedata pid="21" name="ABGFight1" tags="" position="925,300" size="100,100">{(display: &quot;ABGFightVariables&quot;)
+(enchant: ?Link, (transition-arrive: &quot;instant&quot;))
+(set: _prompt to &quot;What will you do?&quot;)}
+You&#39;ve been approached by an ABG recruting for their frat!
+
+(if: $Fought is false and $Ran is false)[ \
+	(link: &quot;...&quot;)[ \
+		{(print: _prompt)} \
+		&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; \
+		(link: &quot;//Fight//&quot;)[(set: $Fought to true)(goto: &quot;ABGFight1&quot;)] \
+		&amp;emsp;&amp;emsp; \
+		(link: &quot;//Run//&quot;)[(set: $Ran to true)(goto: &quot;ABGFight1&quot;)]]] \
+(else:)[ \
+	{(print: _prompt)} \
+	&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; \
+	(if: $Fought is true)[ \
+		//Fight//] \
+	(else:)[(link: &quot;//Fight//&quot;)[ \
+		(set: $Fought to true)(goto: &quot;ABGFight1&quot;)]] \
+	&amp;emsp;&amp;emsp;//Run//] \
+(if: $Ran is true)[ 
+
+	&lt;t&gt;You look around but you realize she cornered you; \
+	You can&#39;t get away.&lt;/t&gt;] \
+(if: $Fought is true)[ 
+
+	&lt;t&gt;You make eye contact with the ABG.&lt;/t&gt;
+	[[...|ABGFight2]]]</tw-passagedata><tw-passagedata pid="22" name="ABGFightVariables" tags="" position="925,175" size="100,100">{
+(if: $ABGFightSetup is true)[]
+(else:)[
+	(set: $ABGFightSetup to true,
+		$Ran to false,
+		$Fought to false)
+]
+}</tw-passagedata><tw-passagedata pid="23" name="ABGFight2" tags="" position="1050,300" size="100,100">The ABG used recruit!
+(link: &quot;...&quot;)[ \
+&lt;t&gt;Your defenses have lowered.&lt;/t&gt;
+	
+What will you do?&amp;emsp;&amp;emsp;(link-reveal: &quot;//Decline Politely//&quot;)[
+
+You used Decline Politely!
+&lt;t&gt;It&#39;s not very effective...&lt;/t&gt;
+
+The ABG used invite to pledge event! 
+(link: &quot;...&quot;)[ \
+&lt;t&gt;You start to think about if you&#39;re free or not...&lt;/t&gt;
+(live: 1s)[
+&lt;t&gt;You shake out of it&lt;/t&gt;(stop:)
+
+(live: 0.5s)[What will you do?&amp;emsp;&amp;emsp; \
+(stop:)(link-reveal: &quot;//Say you don&#39;t like raves//&quot;)[
+&lt;t&gt;It&#39;s super effective!&lt;/t&gt;
+
+(live: 1.25s)[(goto: &quot;DefeatedABG&quot;)]]]]]]]
+</tw-passagedata><tw-passagedata pid="24" name="DefeatedABG" tags="" position="1175,300" size="100,100">(print: $player&#39;s name) has deafeated the wild ABG!
+(link: &quot;...&quot;)[
+&quot;Yeah... I don&#39;t think you&#39;ll be a great fit for our frat.&quot;
+(live: 1s)[
+The wild ABG backs away and you [[//move forward//|VSATent]].(stop:)]]</tw-passagedata><tw-passagedata pid="25" name="VSATent" tags="" position="1300,300" size="100,100">As you walk past some more tables you see a big group of asians surrounding a blue tent.
+
+&amp;emsp;(link-reveal: &quot;//You take a closer look.//&quot;)[
+
+You see asians inviting passerbys to check out their club.
+
+There&#39;s a buff guy in black wife beater [[swinging a flag|BroIntro]] shouting &quot;JOIN VSA!&quot;
+
+You see a short asian girl [[gesturing wildely|LolaIntro]] to an asian girl.
+
+There are also people gathered in front of the table typing on a laptop with a banner for &quot;VSA&quot; attatched to the back of the canopy.
+
+&amp;emsp;[[//Approach the Table//|VSATable]]]</tw-passagedata><tw-passagedata pid="26" name="BroIntro" tags="" position="1425,175" size="100,100">{(set: $BroConfidence to 1 + $player&#39;s fitness,
+	$met to &quot;Bro&quot;)}
+As you watch the buff guy, you can&#39;t help but notice his big arms as he swings his large black flag revealing a white lion painted on top.
+
+He must work out a lot to get such beefy arms and you wonder what it might feel like to be wrapped up in his arms when suddenly he locks eyes with you and smiles.
+
+(link: &quot;...&quot;)[\
+He starts walking towards you and you feel your heart beat faster in your chest.
+
+(link: &quot;...&quot;)[\
+He reaches you and his broad shoulders and big arms can&#39;t help but remind you a little of the Pokemon Machoke.
+
+&quot;Hey there! You should come check out VSA, we&#39;re having a Food Night this Saturday. What&#39;s your name?&quot;
+
+//(print: $player&#39;s name)//(click: $player&#39;s name)[
+
+&quot;Hi (print: $player&#39;s name). My name is Bro and here&#39;s a flyer for our club. You can check out our Facebook group on the flyer or sign up for our mailing list by the table.&quot;
+
+(link: &quot;...&quot;)[\
+You nod your head unable to say anything. Bro starts to turn towards a person walking by...
+
+(link-reveal: &quot;//Say something...//&quot;)[
+
+You try and think of something to say and you finally blurt out: &quot;It was nice to meet you Bro.&quot; But Bro had already left and didn&#39;t hear.
+
+(link: &quot;...&quot;)[ \
+You wonder if you&#39;ll see Bro again...
+
+[[//Go to table//|VSATable]]]]]]]]</tw-passagedata><tw-passagedata pid="27" name="LolaIntro" tags="" position="1425,425" size="100,100">{(set: $LolaConfidence to 1 + $player&#39;s social,
+	$met to &quot;Lola&quot;)}
+She must be like 5&#39;2, you think to yourself and you can&#39;t help but smile when she screams out, grabs a hold of the girl in front of her, and hugs her tightely.
+
+You wonder enviously about her hugging you when she suddenly turns towards you and makes eye contact.
+
+(link: &quot;...&quot;)[\
+She smiles and starts running over to you and your legs start to feel like jelly.
+
+(link: &quot;...&quot;)[\
+She reaches you and you can&#39;t help but think that she is the definition of kawaii. You can already tell that you&#39;re gonna need a lot of energy to keep up.
+
+&quot;Hey there! You should come check out VSA, we&#39;re having a Food Night this Saturday. What&#39;s your name?&quot;
+
+//(print: $player&#39;s name)//(click: $player&#39;s name)[
+
+&quot;Hi (print: $player&#39;s name). My name is Lola and here&#39;s a flyer for our club. Join our Facebook group or sign up for our mailing list by the table.&quot;
+
+(link: &quot;...&quot;)[\
+You nod your head unable to speak. Lola starts turning towards a person walking by...
+
+(link-reveal: &quot;//Say something...//&quot;)[
+
+You try and think of something to say and you finally blurt out: &quot;It was nice to meet you Lola.&quot; But Lola had already left and didn&#39;t hear.
+
+(link: &quot;...&quot;)[ \
+You wonder if you&#39;ll see Lola again...
+
+[[//Go to table//|VSATable]]]]]]]]</tw-passagedata><tw-passagedata pid="28" name="VSATable" tags="" position="1550,300" size="100,100">You approach the table and you see two people side by side filling out a google form on laptops. 
+
+Behind the table, there&#39;s a pretty girl with glasses explaining something to the person typing on the left.
+
+On the right there&#39;s a cute boy handing a sticker to the girl who just finished typing her email.
+
+&amp;emsp;[[//Approach the left computer//|AnnaIntro]]
+&amp;emsp;[[//Approach the right computer//|JustinIntro]]</tw-passagedata><tw-passagedata pid="29" name="AnnaIntro" tags="" position="1675,375" size="100,100">{(set: $AnnaConfidence to 1 + $player&#39;s intelligence)
+(if: $met is &quot;&quot;)[(set: $met to &quot;Anna&quot;)]
+(else:)[(set: $met to it + &quot;and Anna&quot;)]}}
+You step up to the computer as the person in front of you leaves. The pretty girl looks at you intelligently and your heart skips a beat. She seems like she&#39;s always thinking of something. 
+
+&quot;Hey there I&#39;m Anna. Do you have any questions about VSA?&quot;
+
+&amp;emsp;(link-reveal: &quot;//What is VSA?//&quot;)[
+&quot;It stands for Vietnamese Student Association, we&#39;re a social club that focuses on bringing people together with a focus on Vietnamese culture. We have events like our food nights where we the club all go to SJ and eat Viet food or have events like our Winter Olympics&quot;]
+
+&amp;emsp;(link-reveal: &quot;//How do I join?//&quot;)[
+&quot;Just enter your email into this google form and you&#39;ll be signed up to get emails about the club and our events&quot;
+
+&amp;emsp;(link-reveal: &quot;//Enter email//&quot;) [
+
+As you finish typing your email you look up and you nervously smile.
+&quot;What&#39;s your name?&quot; asks Anna.
+
+&amp;emsp;(link-reveal: &quot;//I&#39;m (print: $player&#39;s name)//&quot;)[
+
+&quot;I&#39;m glad you signed up (print: $player&#39;s name). I hope to see you at the Food Night!
+
+Unable to think of anything else to say [[//you leave the table//|CornucopiaEnd]]]]]</tw-passagedata><tw-passagedata pid="30" name="JustinIntro" tags="" position="1675,225" size="100,100">{(set: $JustinConfidence to 1)
+(if: $met is &quot;&quot;)[(set: $met to &quot;Justin&quot;)]
+(else:)[(set: $met to it + &quot;and Justin&quot;)]}
+You step up to the computer as the person in front of you leaves. The cute boy looks at me and my heart skips a beat. He seems so cool yet relaxed.
+
+&quot;Hey there I&#39;m Justin. Do you have any questions about VSA?&quot;
+
+&amp;emsp;(link-reveal: &quot;//What is VSA?//&quot;)[
+&quot;It stands for Vietnamese Student Association, we&#39;re a social club that focuses on bringing people together with a focus on Vietnamese culture. We have events like our food nights where we the club all go to SJ and eat Viet food or have events like our Winter Olympics&quot;]
+
+&amp;emsp;(link-reveal: &quot;//How do I join?//&quot;)[
+&quot;Just enter your email into this google form and you&#39;ll be signed up to get emails about the club and our events&quot;
+
+&amp;emsp;(link-reveal: &quot;//Enter email//&quot;) [
+
+As you finish typing your email you look up and you nervously smile.
+&quot;What&#39;s your name?&quot; asks Justin.
+
+&amp;emsp;(link-reveal: &quot;//I&#39;m (print: $player&#39;s name)//&quot;)[
+
+&quot;I&#39;m glad you signed up (print: $player&#39;s name). I hope to see you at the Food Night!
+
+Unable to think of anything else to say [[//you leave the table//|CornucopiaEnd]]]]]
+</tw-passagedata><tw-passagedata pid="31" name="CornucopiaEnd" tags="charInfo" position="1800,300" size="100,100">You walk around checking out other clubs and you eventually head back to (print: $player&#39;s collegeName). 
+
+You scored a fidget cube and a coupon for some pizza place called Woodstocks but all you can think of are (print: $met) from VSA.
+
+You can&#39;t wait for Food Night.
+
+[[Continue|Day1]]</tw-passagedata><tw-passagedata pid="32" name="Quarry" tags="charInfo" position="2175,300" size="100,100">You hesitantly walk past the bookstore and you&#39;re relieved to see the giant group of Asians. At least you made it to the right place.
+
+You think you see (print: $met) but you aren&#39;t sure. A lot of them are circled around a guy with a clipboard and you assume he&#39;s in charge.
+
+&amp;emsp;[[//Approach leader//|Quarry2]]</tw-passagedata><tw-passagedata pid="33" name="WorkOut" tags="charInfo" position="2050,175" size="100,100">{(set: $player&#39;s fitness += 1)}
+It&#39;s the day of the Food Night and according to the flyer you are supposed to meet at the Quarry at 5:00pm.
+
+You&#39;ve got some time before 5:00, what should you do?
+&amp;emsp;//Work Out//
+
+(either: &quot;You got a good pump in.&quot;, &quot;You feel fitter already.&quot;, &quot;GAINZ!!&quot;)
+
+&amp;emsp;[[//Go to Quarry Plaza//|Quarry]]</tw-passagedata><tw-passagedata pid="34" name="HangOut" tags="charInfo" position="2050,425" size="100,100">{(set: $player&#39;s social += 1)}
+It&#39;s the day of the Food Night and according to the flyer you are supposed to meet at the Quarry at 5:00pm.
+
+You&#39;ve got some time before 5:00, what should you do?
+&amp;emsp;//Hang Out//
+
+(either: &quot;You had fun.&quot;, &quot;You had a really nice hangout.&quot;, &quot;You disscussed a lot of T.&quot;)
+
+&amp;emsp;[[//Go to Quarry Plaza//|Quarry]]</tw-passagedata><tw-passagedata pid="35" name="Study" tags="charInfo" position="2050,300" size="100,100">{(set: $player&#39;s intelligence += 1)}
+It&#39;s the day of the Food Night and according to the flyer you are supposed to meet at the Quarry at 5:00pm.
+
+You&#39;ve got some time before 5:00, what should you do?
+&amp;emsp;//Study//
+
+(either: &quot;You feel like Megamind.&quot;, &quot;You feel productive.&quot;, &quot;You wished studying was always this easy.&quot;)
+
+&amp;emsp;[[//Go to Quarry Plaza//|Quarry]]</tw-passagedata><tw-passagedata pid="36" name="Quarry2" tags="" position="2300,300" size="100,100">You hesitantly walk past the bookstore and you&#39;re relieved to see the giant group of Asians. At least you made it to the right place.
+
+You think you see (print: $met) but you aren&#39;t sure. A lot of them are circled around a guy with a clipboard and you assume he&#39;s in charge.
+
+&amp;emsp;//Approach leader//
+
+&quot;Hi I&#39;m here for the Food Night&quot;
+
+&quot;Welcome I&#39;m Nathan. We actually have 4 drivers left.
+Do you want to ride with [Bro]&lt;o0|, [Lola]&lt;o1|, [Justin]&lt;o2|, [Anna]&lt;o3| or do you [not care]&lt;o4|&quot;] \
+{
+(click: ?o0)[(set: $character to &quot;Bro&quot;)(goto: &quot;Quarry3&quot;)]
+(click: ?o1)[(set: $character to &quot;Lola&quot;)(goto: &quot;Quarry3&quot;)]
+(click: ?o2)[(set: $character to &quot;Justin&quot;)(goto: &quot;Quarry3&quot;)]
+(click: ?o3)[(set: $character to &quot;Anna&quot;)(goto: &quot;Quarry3&quot;)]
+(click: ?o4)[(goto: &quot;Quarry3&quot;)]
+}</tw-passagedata><tw-passagedata pid="37" name="FoodNight" tags="charInfo" position="2550,300" size="100,100">{
+(if: $character is &quot;Bro&quot;)[(set: $BroPoints += 1)]
+(else-if: $character is &quot;Lola&quot;)[(set: $LolaPoints += 1)]
+(else-if: $character is &quot;Justin&quot;)[(set: $JustinPoints +=1)]
+(else:)[(set: $AnnaPoints += 1)]
+}
+&quot;Okay (print: $character) will drive you. They should be right over there.&quot;
+
+&amp;emsp;//Meet with (print: $character)//
+
+(if: $met contains $character)[ \
+&quot;Hey (print: $player&#39;s name), great to see you again.
+
+	(if: $character is &quot;Bro&quot;)[Bro is looking super big today.] \
+	(else-if: $character is &quot;Lola&quot;)[Lola&#39;s oversized sweater makes her look even cuter.] \
+	(else-if: $character is &quot;Justin&quot;)[Justin manages to look like he&#39;s not trying but he looks super handsome in his white hat.] \
+	(else:)[Anna&#39;s glasses fall a little on her noise and it takes everything you have not to push them up her face.]] \
+(else:)[ \
+	(if: $character is &quot;Bro&quot;)[ \
+		You walk up to a machoke from Pokemon looking guy. His shoulders \
+		are broad and his arms are giant. Just what you like...] \
+	(else-if: $character is &quot;Lola&quot;)[ \
+		You walk up and see Lola is wearing an oversized sweater that \			makes her 5&#39;2 frame look even smaller. She looks super cute...] \
+	(else-if: $character is &quot;Justin&quot;)[ \
+		You walk up and see a cute boy wearing a white hat and a bomber \
+		jacket. You wonder what he&#39;d look like without his top...] \
+	(else:)[ \
+		You walk up and see Anna as her glasses fall slightly down her \
+		nose. She&#39;s got like a sexy librarian look to her you definitely \
+		want to check something out...] \
+		
+		
+	&amp;emsp;[[//Introduce Self//|Introduction]]]</tw-passagedata><tw-passagedata pid="38" name="Introduction" tags="charInfo" position="2675,300" size="100,100">&quot;Okay (print: $character) will drive you. They should be right over there.&quot;
+
+&amp;emsp;//Meet with (print: $character)//
+
+(if: $character is &quot;Bro&quot;)[ \
+	You walk up to a machoke from Pokemon looking guy. His shoulders \
+	are broad and his arms are giant. Just what you like...] \
+(else-if: $character is &quot;Lola&quot;)[ \
+	You walk up and see Lola is wearing an oversized sweater that \			makes her 5&#39;2 frame look even smaller. She looks super cute...] \
+(else-if: $character is &quot;Justin&quot;)[ \
+	You walk up and see a cute boy wearing a white hat and a bomber \
+	jacket. You wonder what he&#39;d look like without his top...] \
+(else:)[ \
+	You walk up and see Anna as her glasses fall slightly down her \
+	nose. She&#39;s got like a sexy librarian look to her you definitely \
+	want to check something out...] \
+	
+	
+&amp;emsp;//Introduce Self//
+
+&quot;Hi I&#39;m (print: $player&#39;s name), and I think I&#39;m supposed to be riding with you.&quot;
+
+&quot;Hey there I&#39;m (print: $character). Let&#39;s get going. I&#39;m starving.&quot;
+
+[[//Leave to San Jose//|Restaurant]]</tw-passagedata><tw-passagedata pid="39" name="Restaurant" tags="" position="2800,300" size="100,100">The car ride with $character was great. The \
+{(if: $character is &quot;Bro&quot;)[edm/ drake]
+(else-if: $character is &quot;Lola&quot;)[kpop]
+(else-if: $character is &quot;Justin&quot;)[R&amp;B]
+(else-if: $character is &quot;Anna&quot;)[chill beats to study too]
+(else:)[music]} \
+</tw-passagedata></tw-storydata>
 
 <script title="Twine engine code" data-main="harlowe">"use strict";function _defineProperty(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}function _toConsumableArray(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}var _slicedToArray=function(){function e(e,t){var n=[],r=!0,i=!1,o=void 0;try{for(var a,s=e[Symbol.iterator]();!(r=(a=s.next()).done)&&(n.push(a.value),!t||n.length!==t);r=!0);}catch(e){i=!0,o=e}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}return n}return function(t,n){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,n);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),_typeof="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e};!function(){/**
  * @license almond 0.3.3 Copyright jQuery Foundation and other contributors.
